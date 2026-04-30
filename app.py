@@ -132,7 +132,7 @@ if submit_button:
                 st.info("Rekomendasi: Lakukan konseling akademik untuk memantau perkembangan mahasiswa ini.")
             else:
                 st.success("### ✅ Hasil Prediksi: **Graduate**")
-                st.balloons()
+                
                 st.write("Mahasiswa diprediksi akan menyelesaikan pendidikan dengan baik.")
 
         except Exception as e:
