@@ -67,7 +67,7 @@ https://datastudio.google.com/reporting/eb7cfde7-3f28-4324-98ea-a34bc53ece81
 ## Prototype Machine Learning
 Link Prototype Machine Learning pada Streamlit Community Cloud:
 ```
-
+https://sistem-prediksi-dropout-institut.streamlit.app/
 ```
 
 ## Conclusion
