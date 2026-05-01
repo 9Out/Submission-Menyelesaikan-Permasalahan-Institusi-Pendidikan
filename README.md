@@ -10,10 +10,12 @@ Jumlah dropout yang tinggi ini tentunya menjadi salah satu masalah yang besar un
 
 Berdasarkan latar belakang di atas, permasalahan bisnis utama yang harus diselesaikan dalam proyek ini adalah:
 
-1. #### Tingginya angka dropout mahasiswa
-3. #### Kesulitan mengidentifikasi mahasiswa yang berisiko dropout
-2. #### Pemanfaatan data yang belum optimal
-3. #### Kurangnya metode dalam memonitoring performa mahasiswa
+1. #### Tingginya proporsi siswa yang berakhir Dropout berisiko menurunkan angka kelulusan serta membuat intervensi retensi menjadi terlambat dan kurang tepat sasaran.
+
+2. #### Institusi masih kesulitan mengenali faktor akademik dan administratif yang paling kuat membedakan siswa yang berakhir Dropout dan Graduate, sehingga prioritas penanganan belum berbasis data.
+
+3. #### Institusi belum memiliki sarana monitoring dan prototipe prediksi yang dapat membantu staf akademik membaca risiko siswa lebih dini dan mengambil tindakan yang lebih terarah.
+
 
 ### Cakupan Proyek
 
@@ -64,27 +66,33 @@ Dashboard dibangun menggunakan Looker Studio dan mencakup:
 https://datastudio.google.com/reporting/eb7cfde7-3f28-4324-98ea-a34bc53ece81
 ```
 
-## Prototype Machine Learning
-Link Prototype Machine Learning pada Streamlit Community Cloud:
+## Menjalankan Sistem Machine Learning
+
+Langkah menjalankan sistem secara lokal:
+```
+- Pastikan Sudah menginstall seluruh requirements yang dibutuhkan.
+
+- Jalankan sistem, streamlit run app.py
+```
+
+Link Sistem Machine Learning pada Streamlit Community Cloud:
 ```
 https://sistem-prediksi-dropout-institut.streamlit.app/
 ```
 
 ## Conclusion
 
-ermasalahan utama di Jaya Jaya Institut berakar pada kurangnya pemanfaatan data secara strategis dalam memonitor dan memprediksi performa mahasiswa.
+Proyek ini menunjukkan bahwa masalah dropout di Jaya Jaya Institut paling kuat berkaitan dengan kombinasi performa akademik awal dan kedisiplinan administrasi siswa. Dengan memfokuskan analisis pada perbedaan antara siswa yang berakhir Dropout dan Graduate, project ini membantu institusi menjawab tiga kebutuhan utama: mengenali faktor risiko yang paling penting, memonitor kelompok yang paling rentan melalui dashboard, dan menyediakan prototipe prediksi yang siap dipakai untuk triase awal.
 
 Dari analisis yang dilakukan, dapat disimpulkan bahwa:
 
-1. Tingginya angka dropout bukan terjadi secara tiba-tiba, tetapi memiliki pola yang dapat dideteksi sejak dini (misalnya dari performa akademik, kehadiran, atau faktor lainnya).
+1. Dataset sumber asli dari Dicoding berisi 4.424 siswa tanpa missing value dan tanpa data duplikat. Untuk submission ini digunakan dataset final berisi 3.630 siswa dengan status akhir Dropout dan Graduate, sehingga seluruh analisis, dashboard, dan pemodelan konsisten pada cakupan proyek yang sama.
 
-2. Institusi sebenarnya sudah memiliki data yang cukup, namun belum dimanfaatkan secara optimal untuk pengambilan keputusan.
+2. Model terbaik adalah Logistic Regression dengan accuracy 0,9160 dan weighted f1-score 0,9150.
 
-3. Tidak adanya sistem monitoring yang terstruktur menyebabkan pihak kampus terlambat mengidentifikasi mahasiswa berisiko.
+3. Faktor paling berpengaruh terhadap prediksi status siswa adalah `Curricular_units_2nd_sem_approved`, `Curricular_units_1st_sem_approved`, `Curricular_units_2nd_sem_enrolled`, `Tuition_fees_up_to_date`, dan `Curricular_units_1st_sem_enrolled`.
+4. Analisis lanjutan pada notebook juga menyiapkan evaluasi kelompok, sehingga model tidak hanya dilihat dari performa umum tetapi juga dari perilaku risiko pada subset tertentu seperti gender dan kelompok usia.
 
-4. Tanpa metode prediktif, penanganan masih bersifat reaktif, bukan preventif.
-
-5. Dengan adanya sistem yang menggunakan model xgboost_model.pkl, institusi kini memiliki kemampuan proaktif untuk mengidentifikasi mahasiswa berisiko tinggi sebelum mereka benar-benar keluar, sehingga intervensi dapat dilakukan lebih dini.
 
 ### Rekomendasi Action Items (Optional)
 
@@ -92,10 +100,13 @@ Untuk menekan angka Dropout, berikut adalah beberapa action items strategis yang
 
 - #### Action Item 1:Implementasi Early Warning System (EWS)
 
-    Bangun sistem untuk mendeteksi mahasiswa berisiko dropout sejak dini.
+    Bangun sistem peringatan dini yang menandai siswa dengan `Curricular_units_2nd_sem_approved <= 2` sebagai kandidat intervensi akademik paling mendesak. Rata-rata siswa `Dropout` hanya menyelesaikan `1,94` mata kuliah pada semester kedua, jauh di bawah kelompok `Graduate` yang berada di `6,18`, sehingga ambang ini dapat dipakai sebagai trigger awal untuk mentoring wajib, kelas remedial, dan review rencana studi dalam `1-2` minggu setelah nilai semester keluar.
 
 - #### Action Item 2: Intervensi Dini (Targeted Intervention)
-    Setelah mahasiswa berisiko teridentifikasi, lakukan tindakan cepat seperti melakukan konsultasi atau bimbingan konseling dengan mahasiswa terkait.
+    Gabungkan intervensi akademik dan finansial untuk siswa dengan `Tuition_fees_up_to_date = 0`. Pada data final, kelompok dengan pembayaran tidak mutakhir memiliki `457` kasus dropout dari `486` siswa atau sekitar `94,0%`, sehingga institusi dapat membuat daftar pantauan harian lintas akademik-keuangan, menawarkan skema cicilan atau bantuan darurat, lalu memeriksa kembali progres akademik mereka pada bulan yang sama. 
+    
+    Fokuskan program retensi pada siswa usia masuk `25 tahun ke atas`, terutama kelompok `25-29` dengan dropout rate `70,2%` dan kelompok `30+` dengan dropout rate `61,4%`. Implementasi praktisnya dapat berupa mentoring singkat, jadwal konsultasi di luar jam kerja, kelas malam, atau kanal dukungan daring yang lebih fleksibel untuk segmen nontradisional ini.
 
-- #### Action Item 3: Evaluasi Beasiswa dan Dukungan Finansial
-    Melakukan peninjauan kembali terhadap distribusi beasiswa. Memberikan bantuan finansial tambahan atau skema cicilan khusus bagi mahasiswa berprestasi yang teridentifikasi memiliki kendala ekonomi agar mereka tidak terhenti di tengah jalan.
+- #### Action Item 3
+    Gunakan prototipe machine learning sebagai alat triase untuk membedakan siswa yang pola akademik-awalnya lebih dekat ke `Dropout` atau `Graduate`. Siswa yang memperoleh probabilitas `Dropout` tinggi dan juga berada pada ambang approved units semester dua yang rendah harus diprioritaskan untuk intervensi paling awal.
+n
