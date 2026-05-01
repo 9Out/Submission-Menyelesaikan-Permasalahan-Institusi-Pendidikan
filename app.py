@@ -13,7 +13,7 @@ from model_utils import IQRClipper
 BASE_DIR = Path(__file__).resolve().parent
 MODEL_PATH = BASE_DIR / "model" / "student_status_pipeline.joblib"
 METRICS_PATH = BASE_DIR / "model" / "metrics_summary.json"
-DATA_PATH = BASE_DIR / "data" / "data.csv"
+DATA_PATH = BASE_DIR / "data" / "clean_data.csv"
 
 
 MARITAL_STATUS_MAP = {
