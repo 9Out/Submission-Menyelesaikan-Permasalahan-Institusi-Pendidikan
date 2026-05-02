@@ -84,14 +84,37 @@ https://sistem-prediksi-dropout-institut.streamlit.app/
 
 Proyek ini menunjukkan bahwa masalah dropout di Jaya Jaya Institut paling kuat berkaitan dengan kombinasi performa akademik awal dan kedisiplinan administrasi siswa. Dengan memfokuskan analisis pada perbedaan antara siswa yang berakhir Dropout dan Graduate, project ini membantu institusi menjawab tiga kebutuhan utama: mengenali faktor risiko yang paling penting, memonitor kelompok yang paling rentan melalui dashboard, dan menyediakan prototipe prediksi yang siap dipakai untuk triase awal.
 
-Dari analisis yang dilakukan, dapat disimpulkan bahwa:
+1. ### Berdasarakan Analisis Data (EDA)
+    Berdasarkan hasil exploratory data analysis (EDA), ditemukan beberapa karakteristik yang kuat berkaitan dengan siswa yang mengalami dropout:
 
-1. Dataset sumber asli dari Dicoding berisi 4.424 siswa tanpa missing value dan tanpa data duplikat. Untuk submission ini digunakan dataset final berisi 3.630 siswa dengan status akhir Dropout dan Graduate, sehingga seluruh analisis, dashboard, dan pemodelan konsisten pada cakupan proyek yang sama.
+    1. Siswa dengan jumlah mata kuliah yang diselesaikan (approved) rendah, terutama pada semester pertama dan kedua, memiliki kecenderungan dropout yang jauh lebih tinggi dibandingkan siswa yang lulus.
 
-2. Model terbaik adalah Logistic Regression dengan accuracy 0,9160 dan weighted f1-score 0,9150.
+    2. Status pembayaran biaya kuliah yang tidak mutakhir menunjukkan hubungan yang sangat kuat dengan dropout, di mana sebagian besar siswa dengan tunggakan berakhir tidak menyelesaikan studi.
 
-3. Faktor paling berpengaruh terhadap prediksi status siswa adalah `Curricular_units_2nd_sem_approved`, `Curricular_units_1st_sem_approved`, `Curricular_units_2nd_sem_enrolled`, `Tuition_fees_up_to_date`, dan `Curricular_units_1st_sem_enrolled`.
-4. Analisis lanjutan pada notebook juga menyiapkan evaluasi kelompok, sehingga model tidak hanya dilihat dari performa umum tetapi juga dari perilaku risiko pada subset tertentu seperti gender dan kelompok usia.
+    3. Siswa dengan jumlah mata kuliah yang diambil tetapi tidak diselesaikan juga cenderung memiliki risiko dropout lebih tinggi.
+    
+    4. Dari sisi demografi, kelompok usia non-tradisional (≥25 tahun) menunjukkan tingkat dropout yang lebih tinggi dibandingkan mahasiswa usia lebih muda.
+
+Temuan ini menunjukkan bahwa performa akademik awal dan kedisiplinan administratif merupakan indikator penting dalam mengidentifikasi risiko dropout sejak dini.
+
+2. ### Berdasarkan Model Machine Learning
+
+    1. Model machine learning dibangun untuk memprediksi dropout yang menunjukkan performa yang sangat baik adalah:
+
+        -  Model terbaik: Logistic Regression
+        - Accuracy: 0,9160
+        - Weighted F1-score: 0,9150
+
+    2. Berdasarkan analisis feature importance pada model, fitur yang paling berkontribusi dalam proses prediksi adalah:
+        - `Curricular_units_2nd_sem_approved`
+        - `Curricular_units_1st_sem_approved`
+        - `Curricular_units_2nd_sem_enrolled`
+        - `Tuition_fees_up_to_date`
+        - `Curricular_units_1st_sem_enrolled`
+
+        Perlu diperhatikan bahwa fitur-fitur ini merepresentasikan variabel yang paling membantu model dalam membedakan pola data, namun tidak secara langsung menunjukkan hubungan sebab-akibat terhadap dropout
+
+    3. Analisis lanjutan pada notebook juga menyiapkan evaluasi kelompok, sehingga model tidak hanya dilihat dari performa umum tetapi juga dari perilaku risiko pada subset tertentu seperti gender dan kelompok usia.
 
 
 ### Rekomendasi Action Items (Optional)
@@ -109,4 +132,3 @@ Untuk menekan angka Dropout, berikut adalah beberapa action items strategis yang
 
 - #### Action Item 3
     Gunakan prototipe machine learning sebagai alat triase untuk membedakan siswa yang pola akademik-awalnya lebih dekat ke `Dropout` atau `Graduate`. Siswa yang memperoleh probabilitas `Dropout` tinggi dan juga berada pada ambang approved units semester dua yang rendah harus diprioritaskan untuk intervensi paling awal.
-n
